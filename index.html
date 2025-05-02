@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Применение нейросетей</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      color: #001427;
+    }
+    header {
+      background: linear-gradient(to bottom, #314355, rgb(64, 93, 114));
+      color: rgb(255, 255, 255);
+      padding: 45px;
+      text-align: center;
+      font-size: 20px;
+    }
+    .content p {
+      font-size: 24px;
+      font-weight: normal;
+      line-height: 1.8;
+      color: #000000;
+    }
+    .content p2 {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 2.5;
+      color: rgb(44, 66, 92);
+    }
+    footer {
+      text-align: center;
+      padding: 300px;
+      color: #777;
+    }
+    .content {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+    }
+    .usage-title {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 37px;
+      font-weight: bold;
+    }
+    .options {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .option {
+      background-color: #d9e3e6;
+      border-radius: 12px;
+      overflow: hidden;
+      width: 300px;
+      text-align: center;
+      cursor: pointer;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    .option:hover {
+      transform: scale(1.05);
+    }
+    .option img {
+      width: 100%;
+      height: 195px;
+      object-fit: cover;
+    }
+    .option-text {
+      padding: 20px;
+      font-weight: bold;
+      font-size: 21px;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding-top: 80px;
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 650px;
+      max-height: 100%;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-content video{
+      width: 100%;
+      height: 195px;
+      object-fit: cover
+    }
+    .close {
+      float: right;
+      font-size: 28px;
+      cursor: pointer;
+      color: #9b9999;
+    }                                                 
+    .close:hover { color: black; }
+    .btn-choice {
+      padding: 10px 20px;
+      margin: 10px;
+      background: #314355;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .network-list {
+      margin-top: 20px;
+      max-height: 1000px;
+      overflow-y: auto;
+    }
+    .network-item {
+      margin-bottom: 15px;
+      padding: 10px;
+      background-color: #e9eaeb;
+      border-radius: 8px;
+      line-height: 2;
+      text-align: left;
+      word-wrap: break-word; 
+      overflow-wrap: break-word; 
+      white-space: normal;
+    }
+    .category-section {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .category-header {
+      background-color: #e2e2e2;
+      padding: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .category-header:hover {
+      background-color: #d0d0d0;
+    }
+
+    .category-content {
+      display: none;
+      padding: 15px;
+      background-color: #fafafa;
+      line-height: 1.6;
+      border-top: 1px solid #ccc;
+    }
+    body.no-scroll {
+      overflow: hidden;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Нейросети и их применение</h1>
+  </header>
+  <div class="content">
+    <p>Нейронные сети — это математические модели, созданные по аналогии с нейронами мозга, что отличает их от обычного машинного обучения. Они работают на основе обработки входных данных, передачи сигналов через слои нейронов и принятия решений. Каждый слой выполняет свою задачу: от выделения основных характеристик до финальной интерпретации данных.  Этот процесс делает нейросети универсальным инструментом для работы с большими массивами информации.</p>
+    <p2>Нейросети применяются в самых разных сферах: от образования до развлечений. Выберите, где вы хотите их использовать:</p2>
+    <div class="usage-title">Для чего вы хотите использовать нейросеть?</div>
+    <div class="options">
+      <div class="option" onclick="openRoleModal('Образовательная сфера')">
+        <img src="https://smartykids.ru/wp-content/uploads/2021/11/Depositphotos_163603906_s-2019.jpg" alt="">
+        <div class="option-text">Образовательная сфера</div>
+      </div>
+      <div class="option" onclick="openModal('Повседневная жизнь')">
+        <img src="https://blog.mann-ivanov-ferber.ru/wp-content/uploads/2021/11/image1-min-42-1024x575.png" alt="">
+        <div class="option-text">Повседневная жизнь</div>
+      </div>
+      <div class="option" onclick="openModal('Преобразование речи в текст')">
+        <img src="https://xmldatafeed.com/wp-content/uploads/2022/03/izobrazhenie_2022-03-29_153132.png" alt="">
+        <div class="option-text">Преобразование речи в текст</div>
+      </div>
+      <div class="option" onclick="openModal('Творческие задачи')">
+        <img src="https://www.b17.ru/foto/uploaded/885bc9ff568061174a9d3f32877c0ffe.jpg" alt="">
+        <div class="option-text">Творческие задачи</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="roleModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAllModals()">&times;</span>
+      <h2>Выберите, кто вы:</h2>
+      <button class="btn-choice" onclick="openNetworks('Образовательная сфера: Ученик')">Ученик</button>
+      <button class="btn-choice" onclick="openNetworks('Образовательная сфера: Учитель')">Учитель</button>
+    </div>
+  </div>
+
+  <div id="networksModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeAllModals()">&times;</span>
+      <h2 id="networksTitle">Нейросети</h2>
+      <div class="network-list" id="networksList"></div>
+    </div>
+  </div>
+
+  <footer>
+    Потенциал нейросетей
+  </footer>
+  
+  <script>
+    function closeAllModals() {
+      document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
+      document.body.classList.remove('no-scroll');
+    }
+
+    function openRoleModal() {
+      closeAllModals();
+      document.getElementById('roleModal').style.display = 'block';
+      document.body.classList.remove('no-scroll');
+    }
+
+    function openModal(category) {
+      closeAllModals();
+      const modal = document.getElementById('networksModal');
+      const title = document.getElementById('networksTitle');
+      const list = document.getElementById('networksList');
+      title.textContent = category;
+
+  let networks = {
+    best: {},
+    free: {},
+    russia: {}
+  };
+
+  if (category === 'Повседневная жизнь') {
+    networks.best = { name: 'YandexGPT', desc: 'Мощный помощник для личных задач, общения и бытовых советов.' };
+    networks.free = { name: 'Alice', desc: 'Бесплатный голосовой помощник от Яндекса.' };
+    networks.russia = { name: 'GigaChat', desc: 'Ассистент от Сбера, работает без VPN, полезен в повседневности.' };
+  } else if (category === 'Преобразование речи в текст') {
+    networks.best = { name: 'Whisper', desc: 'Стабильное и точное распознавание речи от OpenAI.' };
+    networks.free = { name: 'Vosk', desc: 'Офлайн-распознавание речи, полностью бесплатное.' };
+    networks.russia = { name: 'Tinkoff VoiceKit', desc: 'API-сервис от Тинькофф, работает в РФ, подходит для проектов.' };
+  } else if (category === 'Творческие задачи') {
+    networks.best = { name: 'Midjourney', desc: 'Создаёт визуальные образы по тексту, часто используется в дизайне.' };
+    networks.free = { name: 'Leonardo.Ai', desc: 'Доступна бесплатная генерация изображений по подписке.' };
+    networks.russia = { name: 'RuDalle', desc: 'Генерация изображений от Sber AI, работает в РФ.' };
+  }
+
+  list.innerHTML = `
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Лучшая нейросеть</div>
+      <div class="category-content">
+        <strong>${networks.best.name}</strong><br>
+        ${networks.best.desc}
+        <iframe width="100%" height="300" 
+          src="https://rutube.ru/video/private/a14694b47558806309f4754f961aef16/?p=4MK1-1mIxRF0EU9TMIwb2w" 
+          title="Видео о нейросети" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Бесплатная нейросеть</div>
+      <div class="category-content">
+        <strong>${networks.free.name}</strong><br>
+        ${networks.free.desc}
+      </div>
+    </div>
+
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Доступная в России</div>
+      <div class="category-content">
+        <strong>${networks.russia.name}</strong><br>
+        ${networks.russia.desc}
+      </div>
+    </div>
+  `;
+
+  modal.style.display = 'block';
+  document.body.classList.add('no-scroll');
+}
+    function openNetworks(role) {
+      closeAllModals();
+      const modal = document.getElementById('networksModal');
+      const title = document.getElementById('networksTitle');
+      const list = document.getElementById('networksList');
+      title.textContent = role;
+
+      let networks = {
+        best: {},
+        free: {},
+        russia: {}
+      };
+
+    if (role === 'Образовательная сфера: Ученик') {
+      networks.best = { name: 'ChatGPT', desc: 'Объясняет сложные темы простыми словами, помогает с домашкой.' };
+      networks.free = { name: 'Socratic', desc: 'Бесплатное мобильное приложение от Google, решающее задачи и объясняющее решения.' };
+      networks.russia = { name: 'YandexGPT', desc: 'Доступен в РФ, может использоваться для ответов на учебные вопросы.' };
+    } else if (role === 'Образовательная сфера: Учитель') {
+      networks.best = { name: 'DeepSeek', desc: 'Генератор задач и контрольных по школьным и вузовским дисциплинам.' };
+      networks.free = { name: 'Google Bard', desc: 'Позволяет бесплатно формулировать задания и получать тестовые вопросы.' };
+      networks.russia = { name: 'SberGPT', desc: 'Аналог ChatGPT, доступен на территории России, генерирует учебные материалы.' };
+    }
+
+  list.innerHTML = `
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Лучшая нейросеть</div>
+      <div class="category-content">
+        <strong>${networks.best.name}</strong><br>
+        ${networks.best.desc}
+      </div>
+    </div>
+
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Бесплатная нейросеть</div>
+      <div class="category-content">
+        <strong>${networks.free.name}</strong><br>
+        ${networks.free.desc}
+      </div>
+    </div>
+
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Доступная в России</div>
+      <div class="category-content">
+        <strong>${networks.russia.name}</strong><br>
+        ${networks.russia.desc}
+      </div>
+    </div>
+  `;
+
+  modal.style.display = 'block';
+  document.body.classList.add('no-scroll');
+}
+function toggleCategory(header) {
+  const content = header.nextElementSibling;
+  content.style.display = content.style.display === 'block' ? 'none' : 'block';
+}
+  </script>
+</body>
+</html>
