@@ -122,7 +122,7 @@
     }
     .network-list {
       margin-top: 20px;
-      max-height: 1000px;
+      max-height: 650px;
       overflow-y: auto;
     }
     .network-item {
@@ -180,7 +180,7 @@
     <p2>Нейросети применяются в самых разных сферах: от образования до развлечений. Выберите, где вы хотите их использовать:</p2>
     <div class="usage-title">Для чего вы хотите использовать нейросеть?</div>
     <div class="options">
-      <div class="option" onclick="openRoleModal('Образовательная сфера')">
+      <div class="option" onclick="openRoleModal('Образовательная  сфера')">
         <img src="https://smartykids.ru/wp-content/uploads/2021/11/Depositphotos_163603906_s-2019.jpg" alt="">
         <div class="option-text">Образовательная сфера</div>
       </div>
@@ -224,6 +224,11 @@
     function closeAllModals() {
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
       document.body.classList.remove('no-scroll');
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+      });
     }
 
     function openRoleModal() {
@@ -231,6 +236,7 @@
       document.getElementById('roleModal').style.display = 'block';
       document.body.classList.remove('no-scroll');
     }
+    
 
     function openModal(category) {
       closeAllModals();
@@ -242,43 +248,76 @@
   let networks = {
     best: {},
     free: {},
-    russia: {}
+    russia: {},
   };
 
   if (category === 'Повседневная жизнь') {
-    networks.best = { name: 'YandexGPT', desc: 'Мощный помощник для личных задач, общения и бытовых советов.' };
-    networks.free = { name: 'Alice', desc: 'Бесплатный голосовой помощник от Яндекса.' };
-    networks.russia = { name: 'GigaChat', desc: 'Ассистент от Сбера, работает без VPN, полезен в повседневности.' };
+    networks.best = { 
+      name: 'YandexGPT', 
+      desc: 'Мощный помощник для личных задач, общения и бытовых советов.', 
+      video: 'https://www.youtube.com/embed/tlCGZ5kvD3U?si=Q6X7h-Dlxs7GKomE'
+    };
+    networks.free = { 
+      name: 'Alice', 
+      desc: 'Бесплатный голосовой помощник от Яндекса.' 
+    };
+    networks.russia = { 
+      name: 'GigaChat', 
+      desc: 'Ассистент от Сбера, работает без VPN, полезен в повседневности.' 
+    };
   } else if (category === 'Преобразование речи в текст') {
-    networks.best = { name: 'Whisper', desc: 'Стабильное и точное распознавание речи от OpenAI.' };
-    networks.free = { name: 'Vosk', desc: 'Офлайн-распознавание речи, полностью бесплатное.' };
-    networks.russia = { name: 'Tinkoff VoiceKit', desc: 'API-сервис от Тинькофф, работает в РФ, подходит для проектов.' };
+
+    list.innerHTML = `
+    <div class="category-section">
+      <div class="category-header" onclick="toggleCategory(this)">Whisper</div>
+      <div class="category-content">
+        <b>Ссылка:</b> <a href="https://github.com/openai/whisper" target="_blank">GitHub Whisper</a><br><br>
+        <b>Видео инструкция установки:</b> <a href="https://youtu.be/R5XVWIUQbfI?si=D-DabxNxl0MKVR8I" target="_blank">Смотреть</a><br>
+        <div style="max-width: 350px">
+          <video controls>
+            <source src="assets/Whisper.mp4" type="video/mp4">
+            <track scr="assets/whisper-subs.vtt" kind="subtitles" scrlang="ru" label="Русские субтитры" default>
+          <video><br><br>
+        </div>
+          <b>Плюсы:</b> <br> 1. Поддержка многих языков<br> 2. Высокая точность распознавания человеческой речи<br> 3. Работает оффлайн<br>
+          <b>Минусы:</b> <br> 1. Задержка в обработке<br> 2. Запускается через командную строку<br> 3. Требует установки моделей вручную<br>
+        </div>
+    </div>
+  `;
+
+  modal.style.display = 'block';
+  document.body.classList.add('no-scroll');
+  return; 
   } else if (category === 'Творческие задачи') {
-    networks.best = { name: 'Midjourney', desc: 'Создаёт визуальные образы по тексту, часто используется в дизайне.' };
-    networks.free = { name: 'Leonardo.Ai', desc: 'Доступна бесплатная генерация изображений по подписке.' };
-    networks.russia = { name: 'RuDalle', desc: 'Генерация изображений от Sber AI, работает в РФ.' };
+    networks.best = { 
+      name: 'Midjourney', 
+      desc: 'Создаёт визуальные образы по тексту, часто используется в дизайне.' 
+    };
+    networks.free = { 
+      name: 'Leonardo.Ai', 
+      desc: 'Доступна бесплатная генерация изображений по подписке.' 
+    };
+    networks.russia = { 
+      name: 'RuDalle', 
+      desc: 'Генерация изображений от Sber AI, работает в РФ.' 
+    };
   }
 
   list.innerHTML = `
     <div class="category-section">
       <div class="category-header" onclick="toggleCategory(this)">Лучшая нейросеть</div>
       <div class="category-content">
-        <strong>${networks.best.name}</strong><br>
+        <strong style='font-size: 20px'>${networks.best.name}</strong><br><br>
+        <b>Ссылка:</b> <a href="${networks.best.url}" target="_blank">${networks.best.name}</a><br><br>
         ${networks.best.desc}
-        <iframe width="100%" height="300" 
-          src="https://rutube.ru/video/private/a14694b47558806309f4754f961aef16/?p=4MK1-1mIxRF0EU9TMIwb2w" 
-          title="Видео о нейросети" 
-          frameborder="0" 
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-          allowfullscreen>
-        </iframe>
       </div>
     </div>
 
     <div class="category-section">
       <div class="category-header" onclick="toggleCategory(this)">Бесплатная нейросеть</div>
       <div class="category-content">
-        <strong>${networks.free.name}</strong><br>
+        <strong style='font-size: 20px'>${networks.free.name}</strong><br><br>
+        <b>Ссылка:</b> <a href="${networks.free.url}" target="_blank">${networks.free.name}</a><br><br>
         ${networks.free.desc}
       </div>
     </div>
@@ -286,7 +325,8 @@
     <div class="category-section">
       <div class="category-header" onclick="toggleCategory(this)">Доступная в России</div>
       <div class="category-content">
-        <strong>${networks.russia.name}</strong><br>
+       <strong style='font-size: 20px'>${networks.russia.name}</strong><br><br>
+        <b>Ссылка:</b> <a href="${networks.russia.url}" target="_blank">${networks.russia.name}</a><br><br>
         ${networks.russia.desc}
       </div>
     </div>
@@ -309,20 +349,41 @@
       };
 
     if (role === 'Образовательная сфера: Ученик') {
-      networks.best = { name: 'ChatGPT', desc: 'Объясняет сложные темы простыми словами, помогает с домашкой.' };
-      networks.free = { name: 'Socratic', desc: 'Бесплатное мобильное приложение от Google, решающее задачи и объясняющее решения.' };
-      networks.russia = { name: 'YandexGPT', desc: 'Доступен в РФ, может использоваться для ответов на учебные вопросы.' };
+      networks.best = { 
+        name: 'ChatGPT', 
+        desc: '<b>!!!ДЛЯ ИСПОЛЬЗОВАНИЯ НЕОБХОДИМ VPN!!!</b> <br><br>ChatGPT может объяснить непонятные темы простыми словами, как это сделал бы учитель. Подскажет, как сделать текст грамотнее и выразительнее, с объяснением грамматических правил. Так же ученик может задать точный вопрос и сразу получить ответ, не тратя время на долгий поиск. ',
+        url: 'https://chatgpt.com/'
+      };
+      networks.free = { 
+        name: 'Socratic', 
+        desc: 'Бесплатное мобильное приложение от Google, решающее задачи и объясняющее решения.', 
+        url: 'https://lens.google/#homework'
+      };
+      networks.russia = { 
+        name: 'YandexGPT', 
+        desc: 'Доступен в РФ, может использоваться для ответов на учебные вопросы.' 
+      };
     } else if (role === 'Образовательная сфера: Учитель') {
-      networks.best = { name: 'DeepSeek', desc: 'Генератор задач и контрольных по школьным и вузовским дисциплинам.' };
-      networks.free = { name: 'Google Bard', desc: 'Позволяет бесплатно формулировать задания и получать тестовые вопросы.' };
-      networks.russia = { name: 'SberGPT', desc: 'Аналог ChatGPT, доступен на территории России, генерирует учебные материалы.' };
+      networks.best = { 
+        name: 'DeepSeek', 
+        desc: 'Генератор задач и контрольных по школьным и вузовским дисциплинам.' 
+      };
+      networks.free = { 
+        name: 'Google Bard', 
+        desc: 'Позволяет бесплатно формулировать задания и получать тестовые вопросы.' 
+      };
+      networks.russia = { 
+        name: 'SberGPT', 
+        desc: 'Аналог ChatGPT, доступен на территории России, генерирует учебные материалы.' 
+      };
     }
 
   list.innerHTML = `
     <div class="category-section">
       <div class="category-header" onclick="toggleCategory(this)">Лучшая нейросеть</div>
       <div class="category-content">
-        <strong>${networks.best.name}</strong><br>
+        <strong style='font-size: 20px'>${networks.best.name}</strong><br><br>
+        <b>Ссылка:</b> <a href="${networks.best.url}" target="_blank">${networks.best.name}</a><br><br>
         ${networks.best.desc}
       </div>
     </div>
@@ -330,7 +391,8 @@
     <div class="category-section">
       <div class="category-header" onclick="toggleCategory(this)">Бесплатная нейросеть</div>
       <div class="category-content">
-        <strong>${networks.free.name}</strong><br>
+        <strong style='font-size: 20px'>${networks.free.name}</strong><br><br>
+        <b>Ссылка:</b> <a href="${networks.free.url}" target="_blank">${networks.free.name}</a><br><br>
         ${networks.free.desc}
       </div>
     </div>
@@ -338,7 +400,8 @@
     <div class="category-section">
       <div class="category-header" onclick="toggleCategory(this)">Доступная в России</div>
       <div class="category-content">
-        <strong>${networks.russia.name}</strong><br>
+        <strong style='font-size: 20px'>${networks.russia.name}</strong><br><br>
+        <b>Ссылка:</b> <a href="${networks.russia.url}" target="_blank">${networks.russia.name}</a><br><br>
         ${networks.russia.desc}
       </div>
     </div>
@@ -351,6 +414,13 @@ function toggleCategory(header) {
   const content = header.nextElementSibling;
   content.style.display = content.style.display === 'block' ? 'none' : 'block';
 }
+window.onclick = function(event) {
+      document.querySelectorAll('.modal').forEach(modal => {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    }
   </script>
 </body>
 </html>
