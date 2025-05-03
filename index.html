@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Применение нейросетей</title>
   <style>
     body {
@@ -13,59 +14,51 @@
     }
     header {
       background: linear-gradient(to bottom, #314355, rgb(64, 93, 114));
-      color: rgb(255, 255, 255);
-      padding: 45px;
+      color: #fff;
+      padding: 2rem 1rem;
       text-align: center;
-      font-size: 20px;
-    }
-    .content p {
-      font-size: 24px;
-      font-weight: normal;
-      line-height: 1.8;
-      color: #000000;
-    }
-    .content p2 {
-      font-size: 24px;
-      font-weight: bold;
-      line-height: 2.5;
-      color: rgb(44, 66, 92);
-    }
-    footer {
-      text-align: center;
-      padding: 300px;
-      color: #777;
     }
     .content {
       max-width: 1000px;
-      margin: 30px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    .content p,
+    .content p2 {
+      font-size: 1.25rem;
+      line-height: 1.8;
+      display: block;
+    }
+    .content p2 {
+      font-weight: bold;
+      color: rgb(44, 66, 92);
+      margin-top: 1rem;
     }
     .usage-title {
       text-align: center;
-      margin: 40px 0 20px;
-      font-size: 37px;
+      margin: 2rem 0 1rem;
+      font-size: 2rem;
       font-weight: bold;
     }
     .options {
       display: flex;
-      justify-content: space-around;
       flex-wrap: wrap;
-      gap: 20px;
+      justify-content: center;
+      gap: 1rem;
     }
     .option {
       background-color: #d9e3e6;
       border-radius: 12px;
       overflow: hidden;
-      width: 300px;
+      width: 100%;
+      max-width: 300px;
       text-align: center;
       cursor: pointer;
       box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s;
     }
     .option:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
     .option img {
       width: 100%;
@@ -73,9 +66,14 @@
       object-fit: cover;
     }
     .option-text {
-      padding: 20px;
+      padding: 1rem;
       font-weight: bold;
-      font-size: 21px;
+      font-size: 1.2rem;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #777;
     }
     .modal {
       display: none;
@@ -87,87 +85,92 @@
       height: 100%;
       overflow: auto;
       background-color: rgba(0, 0, 0, 0.4);
-      padding-top: 80px;
+      padding-top: 4rem;
     }
     .modal-content {
       background-color: #fff;
       margin: auto;
-      padding: 30px;
+      padding: 2rem;
       border-radius: 10px;
-      width: 100%;
+      width: 90%;
       max-width: 650px;
-      max-height: 100%;
-      animation: fadeIn 0.3s ease;
     }
-    .modal-content video{
+    .modal-content video {
       width: 100%;
-      height: 195px;
-      object-fit: cover
+      height: auto;
+      object-fit: cover;
     }
     .close {
       float: right;
-      font-size: 28px;
+      font-size: 1.8rem;
       cursor: pointer;
       color: #9b9999;
-    }                                                 
-    .close:hover { color: black; }
+    }
+    .close:hover {
+      color: black;
+    }
     .btn-choice {
-      padding: 10px 20px;
-      margin: 10px;
+      padding: 0.7rem 1.5rem;
+      margin: 0.5rem;
       background: #314355;
       color: white;
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 1rem;
     }
     .network-list {
-      margin-top: 20px;
-      max-height: 650px;
+      margin-top: 1rem;
+      max-height: 70vh;
       overflow-y: auto;
     }
-    .network-item {
-      margin-bottom: 15px;
-      padding: 10px;
-      background-color: #e9eaeb;
-      border-radius: 8px;
-      line-height: 2;
-      text-align: left;
-      word-wrap: break-word; 
-      overflow-wrap: break-word; 
-      white-space: normal;
-    }
     .category-section {
-      margin-bottom: 20px;
+      margin-bottom: 1rem;
       border: 1px solid #ccc;
       border-radius: 8px;
       overflow: hidden;
     }
-
     .category-header {
       background-color: #e2e2e2;
-      padding: 15px;
+      padding: 1rem;
       font-weight: bold;
       cursor: pointer;
-      transition: background-color 0.3s ease;
     }
-
     .category-header:hover {
       background-color: #d0d0d0;
     }
-
     .category-content {
       display: none;
-      padding: 15px;
+      padding: 1rem;
       background-color: #fafafa;
-      line-height: 1.6;
       border-top: 1px solid #ccc;
     }
     body.no-scroll {
       overflow: hidden;
     }
-    @keyframes fadeIn {
-      from {opacity: 0; transform: scale(0.95);}
-      to {opacity: 1; transform: scale(1);}
+    @media (max-width: 768px) {
+      .content p,
+      .content p2 {
+        font-size: 1.1rem;
+      }
+      .usage-title {
+        font-size: 1.5rem;
+      }
+      .btn-choice {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+    }
+    @media (max-width: 480px) {
+      header {
+        font-size: 1.2rem;
+      }
+      .option-text {
+        font-size: 1rem;
+      }
+      .modal-content {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
