@@ -499,6 +499,22 @@ window.onclick = function(event) {
     behavior: 'smooth'
   });
 }
+  const scrollBtn = document.querySelector('.scroll-to-bottom');
+  function checkScrollPosition() {
+    const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
+    scrollBtn.style.display = nearBottom ? 'none' : 'block';
+  }
+
+  function scrollToBottom() {
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: 'smooth'
+    });
+  }
+
+  window.addEventListener('scroll', checkScrollPosition);
+  window.addEventListener('load', checkScrollPosition);
+
   </script>
 </body>
 </html>
