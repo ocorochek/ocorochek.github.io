@@ -179,13 +179,12 @@
       overflow: hidden;
     }
 .scroll-to-bottom {
-  display: none;
   position: absolute;
   left: 50%;
   bottom: 2.7rem;
   transform: translateX(-50%);
   z-index: 10;
-  background: #333;
+  background: #2e3238;
   color: white;
   border: none;
   padding: 8px 12px;
@@ -193,6 +192,7 @@
   border-radius: 6px;
   opacity: 0.8;
   transition: opacity 0.3s ease;
+  display: none;
 }
 
 .scroll-to-bottom:hover {
@@ -271,7 +271,7 @@
       <span class="close" onclick="closeAllModals()">&times;</span>
       <h2 id="networksTitle">Нейросети</h2>
       <div class="network-list" id="networksList"></div>
-      <button class="scroll-to-bottom" onclick="scrollToModalBottom('networksModal')">↓ Вниз</button>
+      <button class="scroll-to-bottom" id="scrollBtn"onclick="scrollToModalBottom('networksModal')">↓ Вниз</button>
     </div>
   </div>
 
@@ -492,30 +492,27 @@ window.onclick = function(event) {
     const theme = body.classList.contains('dark') ? 'dark' : 'light';
     localStorage.setItem('theme', theme);
   });
-  function scrollToModalBottom(networksModal) {
-  const modal = document.getElementById(networksModal);
-  const content = modal.querySelector('.network-list');
+  const scrollBtn = document.getElementById('scrollBtn');
+  const networksList = document.getElementById('networksList');
 
-  content.scrollTo({
-    top: content.scrollHeight,
-    behavior: 'smooth'
-  });
-}
-  const scrollBtn = document.querySelector('.scroll-to-bottom');
-  function checkScrollPosition() {
-    const nearBottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
-    scrollBtn.style.display = nearBottom ? 'none' : 'block';
+  function updateScrollButtonVisibility() {
+    const scrollable = networksList.scrollHeight > networksList.clientHeight;
+    const atBottom = networksList.scrollTop + networksList.clientHeight >= networksList.scrollHeight - 1;
+
+    scrollBtn.style.display = (scrollable && !atBottom) ? 'block' : 'none';
   }
 
-  function scrollToBottom() {
-    window.scrollTo({
-      top: document.body.scrollHeight,
+  function scrollToModalBottom() {
+    networksList.scrollTo({
+      top: networksList.scrollHeight,
       behavior: 'smooth'
     });
   }
 
-  window.addEventListener('scroll', checkScrollPosition);
-  window.addEventListener('load', checkScrollPosition);
+  networksList.addEventListener('scroll', updateScrollButtonVisibility);
+  window.addEventListener('load', updateScrollButtonVisibility);
+  window.addEventListener('resize', updateScrollButtonVisibility);
+
 
   </script>
 </body>
