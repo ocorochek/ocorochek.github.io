@@ -177,12 +177,12 @@
     body.no-scroll {
       overflow: hidden;
     }
-    .scroll-to-bottom {
-  position: relative;
+.scroll-to-bottom {
+  position: fixed;
+  left: 50%;
   bottom: 10px;
-  left: 19.6rem;
-  top: 0.4rem;
-  transform: translateX(-19.6rem);
+  transform: translateX(-50%);
+  z-index: 10;
   background: #333;
   color: white;
   border: none;
