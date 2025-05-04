@@ -271,7 +271,7 @@
       <span class="close" onclick="closeAllModals()">&times;</span>
       <h2 id="networksTitle">Нейросети</h2>
       <div class="network-list" id="networksList"></div>
-      <button class="scroll-to-bottom" id="scrollBtn"onclick="scrollToModalBottom('networksModal')">↓ Вниз</button>
+      <button class="scroll-to-bottom" id="scrollBtn"onclick="scrollToModalBottom('networksList')">↓ Вниз</button>
     </div>
   </div>
 
@@ -283,6 +283,8 @@
     function closeAllModals() {
       document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
       document.body.classList.remove('no-scroll');
+      const button = document.getElementById('scrollBtn');
+      button.style.display = 'none'; 
       const videos = document.querySelectorAll('video');
       videos.forEach(video => {
         video.pause();
@@ -312,7 +314,7 @@
 
   if (category === 'Повседневная жизнь') {
     networks.best = { 
-      name: 'YandexGPT', 
+      name: 'Grok', 
       desc: 'Мощный помощник для личных задач, общения и бытовых советов.', 
 
     };
@@ -321,7 +323,7 @@
       desc: 'Бесплатный голосовой помощник от Яндекса.' 
     };
     networks.russia = { 
-      name: 'GigaChat', 
+      name: 'Mistral', 
       desc: 'Ассистент от Сбера, работает без VPN, полезен в повседневности.' 
     };
   } else if (category === 'Преобразование речи в текст') {
@@ -349,7 +351,7 @@
   return; 
   } else if (category === 'Творческие задачи') {
     networks.best = { 
-      name: 'Midjourney', 
+      name: 'Suno AI', 
       desc: 'Создаёт визуальные образы по тексту, часто используется в дизайне.' 
     };
     networks.free = { 
@@ -357,7 +359,7 @@
       desc: 'Доступна бесплатная генерация изображений по подписке.' 
     };
     networks.russia = { 
-      name: 'RuDalle', 
+      name: 'Kandinsky', 
       desc: 'Генерация изображений от Sber AI, работает в РФ.' 
     };
   }
@@ -420,20 +422,24 @@
       };
       networks.russia = { 
         name: 'YandexGPT', 
-        desc: 'Доступен в РФ, может использоваться для ответов на учебные вопросы.' 
+        desc: 'Доступен в РФ, может использоваться для ответов на учебные вопросы.', 
+        url: 'https://alice.yandex.ru/'
       };
     } else if (role === 'Образовательная сфера: Учитель') {
       networks.best = { 
         name: 'DeepSeek', 
-        desc: 'Генератор задач и контрольных по школьным и вузовским дисциплинам.' 
+        desc: 'Генератор задач и контрольных по школьным и вузовским дисциплинам.', 
+        url: 'https://chat.deepseek.com/sign_in'
       };
       networks.free = { 
-        name: 'Google Bard', 
-        desc: 'Позволяет бесплатно формулировать задания и получать тестовые вопросы.' 
+        name: 'GigaChat', 
+        desc: 'Позволяет бесплатно формулировать задания и получать тестовые вопросы.',
+        url: 'https://giga.chat/' 
       };
       networks.russia = { 
         name: 'SberGPT', 
-        desc: 'Аналог ChatGPT, доступен на территории России, генерирует учебные материалы.' 
+        desc: 'Аналог ChatGPT, доступен на территории России, генерирует учебные материалы.', 
+        url: 'https://giga.chat/'
       };
     }
 
@@ -492,27 +498,55 @@ window.onclick = function(event) {
     const theme = body.classList.contains('dark') ? 'dark' : 'light';
     localStorage.setItem('theme', theme);
   });
-  const scrollBtn = document.getElementById('scrollBtn');
-  const networksList = document.getElementById('networksList');
+  function scrollToModalBottom(contentId) {
+  const content = document.getElementById(contentId);
+  content.scrollTo({
+    top: content.scrollHeight,
+    behavior: 'smooth'
+  });
+}
 
-  function updateScrollButtonVisibility() {
-    const scrollable = networksList.scrollHeight > networksList.clientHeight;
-    const atBottom = networksList.scrollTop + networksList.clientHeight >= networksList.scrollHeight - 1;
+function hasVisibleScrollbar(el) {
+  return el.scrollHeight > el.clientHeight;
+}
 
-    scrollBtn.style.display = (scrollable && !atBottom) ? 'block' : 'none';
-  }
+function scrollToModalBottom(contentId) {
+  const content = document.getElementById(contentId);
+  content.scrollTo({
+    top: content.scrollHeight,
+    behavior: 'smooth'
+  });
+}
 
-  function scrollToModalBottom() {
-    networksList.scrollTo({
-      top: networksList.scrollHeight,
-      behavior: 'smooth'
-    });
-  }
+function hasVerticalScrollbar(element) {
+  return element.scrollHeight > element.clientHeight;
+}
 
-  networksList.addEventListener('scroll', updateScrollButtonVisibility);
-  window.addEventListener('load', updateScrollButtonVisibility);
-  window.addEventListener('resize', updateScrollButtonVisibility);
+function updateScrollButtonVisibility(contentId, buttonId) {
+  const content = document.getElementById(contentId);
+  const button = document.getElementById(buttonId);
+  const isScrollable = hasVerticalScrollbar(content);
+  const isAtBottom = content.scrollHeight - content.scrollTop <= content.clientHeight + 1;
 
+  button.style.display = (isScrollable && !isAtBottom) ? 'block' : 'none';
+}
+
+function openNetworksModal() {
+  const modal = document.getElementById('networksModal');
+  const content = document.getElementById('networksList');
+  const button = document.getElementById('scrollBtn');
+
+  modal.style.display = 'block';
+  document.body.classList.add('no-scroll');
+  content.scrollTop = 0;
+
+  setTimeout(() => {
+    updateScrollButtonVisibility('networksList', 'scrollBtn');
+  }, 50);
+}
+document.getElementById('networksList').addEventListener('scroll', function () {
+  updateScrollButtonVisibility('networksList', 'scrollBtn');
+});
 
   </script>
 </body>
