@@ -5,6 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Применение нейросетей</title>
   <style>
+    body.dark {
+      background-color: #303030;
+      color: #e0e0e0;
+    }
+
+    body.dark header {
+      background: linear-gradient(to bottom, #1c1f26, #3b404a);
+    }
+
+    body.dark .option,
+    body.dark .category-header,
+    body.dark .category-content,
+    body.dark .modal-content {
+      background-color: #393d47;
+      color: #e0e0e0;
+    }
+
+    body.dark .category-header:hover {
+      background-color: #3b404a;
+    }
+    body.dark a {
+      color:rgb(117, 185, 241)
+    }
+    body.dark .btn-choice {
+      background-color: #272727;
+    }
     body {
       font-family: Arial, sans-serif;
       background-color: #ffffff;
@@ -23,15 +49,13 @@
       margin: auto;
       padding: 2rem 1rem;
     }
-    .content p,
-    .content p2 {
+    .content p{
       font-size: 1.25rem;
       line-height: 1.8;
       display: block;
     }
-    .content p2 {
+    .content-text {
       font-weight: bold;
-      color: rgb(44, 66, 92);
       margin-top: 1rem;
     }
     .usage-title {
@@ -39,6 +63,9 @@
       margin: 2rem 0 1rem;
       font-size: 2rem;
       font-weight: bold;
+    }
+    a {
+      color: #2100EB;
     }
     .options {
       display: flex;
@@ -94,6 +121,8 @@
       border-radius: 10px;
       width: 90%;
       max-width: 650px;
+      animation: fadeIn 0.3s ease;
+      padding-right: 10px;
     }
     .modal-content video {
       width: 100%;
@@ -148,6 +177,28 @@
     body.no-scroll {
       overflow: hidden;
     }
+    .scroll-to-bottom {
+  position: relative;
+  bottom: 10px;
+  left: 43%;
+  z-index: 10;
+  background: #333;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-to-bottom:hover {
+  opacity: 1;
+}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
     @media (max-width: 768px) {
       .content p,
       .content p2 {
@@ -177,10 +228,11 @@
 <body>
   <header>
     <h1>Нейросети и их применение</h1>
+    <button id="theme-toggle" class="btn-choice" style="position: absolute; top: 1rem; right: 1rem;">Сменить тему</button>
   </header>
   <div class="content">
     <p>Нейронные сети — это математические модели, созданные по аналогии с нейронами мозга, что отличает их от обычного машинного обучения. Они работают на основе обработки входных данных, передачи сигналов через слои нейронов и принятия решений. Каждый слой выполняет свою задачу: от выделения основных характеристик до финальной интерпретации данных.  Этот процесс делает нейросети универсальным инструментом для работы с большими массивами информации.</p>
-    <p2>Нейросети применяются в самых разных сферах: от образования до развлечений. Выберите, где вы хотите их использовать:</p2>
+    <p class="content-text">Нейросети применяются в самых разных сферах: от образования до развлечений. Выберите, где вы хотите их использовать:</p2>
     <div class="usage-title">Для чего вы хотите использовать нейросеть?</div>
     <div class="options">
       <div class="option" onclick="openRoleModal('Образовательная  сфера')">
@@ -216,6 +268,7 @@
       <span class="close" onclick="closeAllModals()">&times;</span>
       <h2 id="networksTitle">Нейросети</h2>
       <div class="network-list" id="networksList"></div>
+      <button class="scroll-to-bottom" onclick="scrollToModalBottom('networksModal')">↓ Вниз</button>
     </div>
   </div>
 
@@ -258,7 +311,7 @@
     networks.best = { 
       name: 'YandexGPT', 
       desc: 'Мощный помощник для личных задач, общения и бытовых советов.', 
-      video: 'https://www.youtube.com/embed/tlCGZ5kvD3U?si=Q6X7h-Dlxs7GKomE'
+
     };
     networks.free = { 
       name: 'Alice', 
@@ -275,15 +328,15 @@
       <div class="category-header" onclick="toggleCategory(this)">Whisper</div>
       <div class="category-content">
         <b>Ссылка:</b> <a href="https://github.com/openai/whisper" target="_blank">GitHub Whisper</a><br><br>
-        <b>Видео инструкция установки модели нейросети:</b> <a href="https://youtu.be/R5XVWIUQbfI?si=D-DabxNxl0MKVR8I" target="_blank">Смотреть</a><br>
+        <b>Видео инструкция установки модели нейросети:</b> <a href="https://youtu.be/R5XVWIUQbfI?si=D-DabxNxl0MKVR8I" target="_blank">Смотреть</a><br><br>
         <div style="max-width: 350px">
           <video controls>
             <source src="assets/Whisper.mp4" type="video/mp4">
-            <track scr="assets/whisper-subs.vtt" kind="subtitles" scrlang="ru" label="Русские субтитры" default>
-          <video><br><br>
+            <track src="assets/whisper-subs.vtt" kind="subtitles" srclang="ru" label="Русские субтитры" default>
+          </video><br><br><br>
         </div>
-          <b>Плюсы:</b> <br> 1. Поддержка многих языков<br> 2. Высокая точность распознавания человеческой речи<br> 3. Работает оффлайн<br>
-          <b>Минусы:</b> <br> 1. Задержка в обработке<br> 2. Запускается через командную строку<br> 3. Требует установки моделей вручную<br>
+          <b>Плюсы:</b> <br><br><br> 1. Поддержка многих языков<br><br> 2. Высокая точность распознавания человеческой речи<br><br> 3. Работает оффлайн<br><br><br>
+          <b>Минусы:</b> <br><br><br> 1. Задержка в обработке<br><br> 2. Запускается через командную строку<br><br> 3. Требует установки моделей вручную<br>
         </div>
     </div>
   `;
@@ -424,6 +477,27 @@ window.onclick = function(event) {
         }
       });
     }
+  const toggleBtn = document.getElementById('theme-toggle');
+  const body = document.body;
+
+  if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark');
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    body.classList.toggle('dark');
+    const theme = body.classList.contains('dark') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+  });
+  function scrollToModalBottom(networksModal) {
+  const modal = document.getElementById(networksModal);
+  const content = modal.querySelector('.network-list');
+
+  content.scrollTo({
+    top: content.scrollHeight,
+    behavior: 'smooth'
+  });
+}
   </script>
 </body>
 </html>
