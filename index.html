@@ -15,13 +15,14 @@
     }
 
     body.dark .option,
-    body.dark .category-header,
     body.dark .category-content,
     body.dark .modal-content {
       background-color: #393d47;
       color: #e0e0e0;
     }
-
+    body.dark .category-header {
+      background-color: #1c252c;
+    }
     body.dark .category-header:hover {
       background-color: #3b404a;
     }
@@ -89,7 +90,7 @@
     }
     .option img {
       width: 100%;
-      height: 195px;
+      height: 225px;
       object-fit: cover;
     }
     .option-text {
@@ -174,6 +175,7 @@
       padding: 1rem;
       background-color: #fafafa;
       border-top: 1px solid #ccc;
+      line-height: 1.6;
     }
     body.no-scroll {
       overflow: hidden;
@@ -235,6 +237,7 @@
   </header>
   <div class="content">
     <p>Нейронные сети — это математические модели, созданные по аналогии с нейронами мозга, что отличает их от обычного машинного обучения. Они работают на основе обработки входных данных, передачи сигналов через слои нейронов и принятия решений. Каждый слой выполняет свою задачу: от выделения основных характеристик до финальной интерпретации данных.  Этот процесс делает нейросети универсальным инструментом для работы с большими массивами информации.</p>
+    <a href="" target="_blank">🔍︎Узнать больше</a><br><br>
     <p class="content-text">Нейросети применяются в самых разных сферах: от образования до развлечений. Выберите, где вы хотите их использовать:</p2>
     <div class="usage-title">Для чего вы хотите использовать нейросеть?</div>
     <div class="options">
@@ -374,7 +377,7 @@
       </div>
     </div>
 
-    <div class="category-section">
+    <div class="category-section" style="line-height: 1.6;">
       <div class="category-header" onclick="toggleCategory(this)">Бесплатная нейросеть</div>
       <div class="category-content">
         <strong style='font-size: 20px'>${networks.free.name}</strong><br><br>
@@ -383,7 +386,7 @@
       </div>
     </div>
 
-    <div class="category-section">
+    <div class="category-section" style="line-height: 1.6;">
       <div class="category-header" onclick="toggleCategory(this)">Доступная в России</div>
       <div class="category-content">
        <strong style='font-size: 20px'>${networks.russia.name}</strong><br><br>
@@ -478,6 +481,7 @@
 function toggleCategory(header) {
   const content = header.nextElementSibling;
   content.style.display = content.style.display === 'block' ? 'none' : 'block';
+  updateScrollButtonVisibility('networksList', 'scrollBtn');
 }
 window.onclick = function(event) {
       document.querySelectorAll('.modal').forEach(modal => {
@@ -492,7 +496,6 @@ window.onclick = function(event) {
   if (localStorage.getItem('theme') === 'dark') {
     body.classList.add('dark');
   }
-
   toggleBtn.addEventListener('click', () => {
     body.classList.toggle('dark');
     const theme = body.classList.contains('dark') ? 'dark' : 'light';
@@ -505,23 +508,12 @@ window.onclick = function(event) {
     behavior: 'smooth'
   });
 }
-
 function hasVisibleScrollbar(el) {
   return el.scrollHeight > el.clientHeight;
 }
-
-function scrollToModalBottom(contentId) {
-  const content = document.getElementById(contentId);
-  content.scrollTo({
-    top: content.scrollHeight,
-    behavior: 'smooth'
-  });
-}
-
 function hasVerticalScrollbar(element) {
   return element.scrollHeight > element.clientHeight;
 }
-
 function updateScrollButtonVisibility(contentId, buttonId) {
   const content = document.getElementById(contentId);
   const button = document.getElementById(buttonId);
@@ -530,7 +522,6 @@ function updateScrollButtonVisibility(contentId, buttonId) {
 
   button.style.display = (isScrollable && !isAtBottom) ? 'block' : 'none';
 }
-
 function openNetworksModal() {
   const modal = document.getElementById('networksModal');
   const content = document.getElementById('networksList');
@@ -547,7 +538,6 @@ function openNetworksModal() {
 document.getElementById('networksList').addEventListener('scroll', function () {
   updateScrollButtonVisibility('networksList', 'scrollBtn');
 });
-
   </script>
 </body>
 </html>
