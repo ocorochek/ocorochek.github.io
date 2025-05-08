@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Применение нейросетей</title>
+  <style>
+    body.dark {
+      background-color: #303030;
+      color: #e0e0e0;
+    }
+    body.dark header {
+      background: linear-gradient(to bottom, #1c1f26, #3b404a);
+    }
+    body.dark a {
+      color:rgb(117, 185, 241)
+    }
+    body.dark .category-content {
+      background-color: #393d47;
+      color: #e0e0e0;
+    }
+    body.dark .btn-choice {
+      background-color: #272727;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      color: #001427;
+    }
+    .content {
+      max-width: 1000px;
+      margin: auto;
+      padding: 2rem 1rem;
+    }
+    .content p{
+      font-size: 1.25rem;
+      line-height: 2.0;
+      display: block;
+    }
+    .usage-title {
+      text-align: center;
+      margin: 2rem 0 1rem;
+      font-size: 2rem;
+      font-weight: bold;
+    }
+    header {
+      background: linear-gradient(to bottom, #314355, rgb(64, 93, 114));
+      color: #fff;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .btn-choice {
+      padding: 0.7rem 1.5rem;
+      margin: 0.5rem;
+      background: #314355;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    a {
+      color: #2100EB;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #777;
+    }
+    @media (max-width: 768px) {
+      .content p {
+        font-size: 1.1rem;
+      }
+      .usage-title {
+        font-size: 1.5rem;
+      }
+      .btn-choice {
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+    }
+    @media (max-width: 480px) {
+      header {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Нейросети и их применение</h1>
+    <button id="theme-toggle" class="btn-choice" style="position: absolute; top: 0rem; right: 0rem; padding: 0.7rem 0.2rem;">Сменить тему</button>
+  </header>
+  <div class="content">
+    <p>Нейросети — это особый вид программ, которые могут учиться и принимать решения на основе входных данных. Внутри они устроены по аналогии с нейронами мозга, которые соединены между собой. Когда нейросети показывают, например, картинку, она получает эту информацию на вход. Дальше эта информация проходит через множество уровней внутри сети, где обрабатывается и анализируется.<br> Каждый слой нейронов смотрит на свою часть данных и передаёт их дальше, постепенно преобразуя и уточняя смысл этих данных. Можно представить это как поток: данные проходят через слои, каждый из которых обращает свое внимание на что-то важное. Первый слой может заметить, где на картинке тёмные и светлые пятна. Второй — какие из них похожи на уши, нос или глаза. И так далее, пока сеть не поймёт, что это, скажем, кошка.<br>Чтобы нейросеть начала хорошо работать, её нужно сначала обучить. Для этого ей показывают много примеров с правильными ответами — как учитель показывают ученику. Сначала она может ошибаться, но благодаря обратной связи она запоминает, где была неправа, и постепенно становится всё точнее. Чем больше хороших примеров, тем лучше она учится. <br>Когда обучение закончено, сеть может самостоятельно распознавать новые картинки, тексты или звуки, даже если раньше такие примеры не встречались. Она делает это, сравнивая новое с тем, что запомнила, и находит похожие черты. Именно так работают голосовые помощники, переводчики, фильтры в соцсетях, системы распознавания лиц и даже программы для диагностики болезней.<br> По сути, нейросеть — это способ научить компьютер замечать, понимать и действовать на основе опыта, почти как человек. Только она делает это быстрее, с огромным количеством данных и без усталости.</p>
+    <a href="general_website.html">Назад</a>
+  </div>
+  <footer>
+    Потенциал нейросетей
+  </footer>
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+    const savedTheme = localStorage.getItem('theme');
+
+    if (savedTheme){
+      if (savedTheme === 'dark') {
+        body.classList.add('dark');
+      }
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        body.classList.add('dark');
+      }
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      const theme = body.classList.contains('dark') ? 'dark' : 'light';
+      localStorage.setItem('theme', theme);
+    });
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme')) {
+        body.classList.toggle('dark', e.matches);
+      }
+    });
+  </script>
